@@ -11,7 +11,7 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion7
+const _ = grpc.SupportPackageIsVersion6
 
 // LogsServiceClient is the client API for LogsService service.
 //
@@ -53,19 +53,12 @@ type LogsServiceServer interface {
 type UnimplementedLogsServiceServer struct {
 }
 
-func (UnimplementedLogsServiceServer) Export(context.Context, *ExportLogsServiceRequest) (*ExportLogsServiceResponse, error) {
+func (*UnimplementedLogsServiceServer) Export(context.Context, *ExportLogsServiceRequest) (*ExportLogsServiceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Export not implemented")
 }
-func (UnimplementedLogsServiceServer) mustEmbedUnimplementedLogsServiceServer() {}
+func (*UnimplementedLogsServiceServer) mustEmbedUnimplementedLogsServiceServer() {}
 
-// UnsafeLogsServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to LogsServiceServer will
-// result in compilation errors.
-type UnsafeLogsServiceServer interface {
-	mustEmbedUnimplementedLogsServiceServer()
-}
-
-func RegisterLogsServiceServer(s grpc.ServiceRegistrar, srv LogsServiceServer) {
+func RegisterLogsServiceServer(s *grpc.Server, srv LogsServiceServer) {
 	s.RegisterService(&_LogsService_serviceDesc, srv)
 }
 

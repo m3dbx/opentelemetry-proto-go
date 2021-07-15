@@ -50,7 +50,7 @@ $(1)
 
 endef
 
-OTEL_DOCKER_PROTOBUF ?= otel/build-protobuf:0.2.1
+OTEL_DOCKER_PROTOBUF ?= quay.io/m3/otel-build-tools:0859585
 PROTOC := docker run --rm -u ${shell id -u} -v${PWD}:${PWD} -w${PWD} ${OTEL_DOCKER_PROTOBUF} --proto_path="$(PROTO_SOURCE_DIR)"
 
 .DEFAULT_GOAL := protobuf
@@ -86,11 +86,9 @@ gen-otlp-protobuf: $(SOURCE_PROTO_FILES)
 
 .PHONY: copy-otlp-protobuf
 copy-otlp-protobuf:
-	rm -rf ./$(OTLP_OUTPUT_DIR)
-	mkdir -p ./$(OTLP_OUTPUT_DIR)
+	find $(OTLP_OUTPUT_DIR) | fgrep '.go' | xargs -I{} rm {}
 	@rsync -a $(PROTOBUF_TEMP_DIR)/go.opentelemetry.io/proto/otlp/ ./$(OTLP_OUTPUT_DIR)
-	cd ./$(OTLP_OUTPUT_DIR) && go mod init $(GO_MOD_ROOT)/$(OTLP_OUTPUT_DIR)
-	@cd ./$(OTLP_OUTPUT_DIR) && go get ./...
+	cd ./$(OTLP_OUTPUT_DIR) && go mod tidy
 
 .PHONY: clean
 clean:

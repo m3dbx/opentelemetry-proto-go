@@ -11,7 +11,7 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion7
+const _ = grpc.SupportPackageIsVersion6
 
 // MetricsServiceClient is the client API for MetricsService service.
 //
@@ -53,19 +53,12 @@ type MetricsServiceServer interface {
 type UnimplementedMetricsServiceServer struct {
 }
 
-func (UnimplementedMetricsServiceServer) Export(context.Context, *ExportMetricsServiceRequest) (*ExportMetricsServiceResponse, error) {
+func (*UnimplementedMetricsServiceServer) Export(context.Context, *ExportMetricsServiceRequest) (*ExportMetricsServiceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Export not implemented")
 }
-func (UnimplementedMetricsServiceServer) mustEmbedUnimplementedMetricsServiceServer() {}
+func (*UnimplementedMetricsServiceServer) mustEmbedUnimplementedMetricsServiceServer() {}
 
-// UnsafeMetricsServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to MetricsServiceServer will
-// result in compilation errors.
-type UnsafeMetricsServiceServer interface {
-	mustEmbedUnimplementedMetricsServiceServer()
-}
-
-func RegisterMetricsServiceServer(s grpc.ServiceRegistrar, srv MetricsServiceServer) {
+func RegisterMetricsServiceServer(s *grpc.Server, srv MetricsServiceServer) {
 	s.RegisterService(&_MetricsService_serviceDesc, srv)
 }
 

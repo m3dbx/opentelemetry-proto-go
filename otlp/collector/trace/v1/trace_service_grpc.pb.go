@@ -11,7 +11,7 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion7
+const _ = grpc.SupportPackageIsVersion6
 
 // TraceServiceClient is the client API for TraceService service.
 //
@@ -53,19 +53,12 @@ type TraceServiceServer interface {
 type UnimplementedTraceServiceServer struct {
 }
 
-func (UnimplementedTraceServiceServer) Export(context.Context, *ExportTraceServiceRequest) (*ExportTraceServiceResponse, error) {
+func (*UnimplementedTraceServiceServer) Export(context.Context, *ExportTraceServiceRequest) (*ExportTraceServiceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Export not implemented")
 }
-func (UnimplementedTraceServiceServer) mustEmbedUnimplementedTraceServiceServer() {}
+func (*UnimplementedTraceServiceServer) mustEmbedUnimplementedTraceServiceServer() {}
 
-// UnsafeTraceServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to TraceServiceServer will
-// result in compilation errors.
-type UnsafeTraceServiceServer interface {
-	mustEmbedUnimplementedTraceServiceServer()
-}
-
-func RegisterTraceServiceServer(s grpc.ServiceRegistrar, srv TraceServiceServer) {
+func RegisterTraceServiceServer(s *grpc.Server, srv TraceServiceServer) {
 	s.RegisterService(&_TraceService_serviceDesc, srv)
 }
 
